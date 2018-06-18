@@ -17,11 +17,15 @@ os.chdir(pth(__file__).parent.parent)
 cwd = pth(os.getcwd())
 
 
-def clean_df(x: pd.DataFrame):
-    y = x[x.notna().all(axis=1)]
-    # y = x[x.notna().any(axis=1)]
-    y = y.fillna(0)
+def clean_df(x: pd.DataFrame, axis=1):
+    if axis == 1:
+        y = x[x.notna().all(axis=1)]
+    if axis == 0:
+        x = x.T
+        y = x[x.notna().all(axis=1)]
+        y = y.T
 
+    # y = x[x.notna().any(axis=1)]
     return y
 
 
