@@ -79,7 +79,6 @@ class JointNmfClass:
             self.cmw += self.connectivity_matrix_w()
             # self.w_avg += self.w
 
-
             for key in self.h:
                 # self.h_avg[key] += self.h[key]
                 connectivity_matrix = lambda a: np.dot(a.T, a)
@@ -92,8 +91,8 @@ class JointNmfClass:
 
         for key in self.h:
             # self.h_avg[key] /= self.super_niter
-            self.max_class_cm[key]/=self.super_niter
-            self.z_class_cm[key]/=self.super_niter
+            self.max_class_cm[key] /= self.super_niter
+            self.z_class_cm[key] /= self.super_niter
             self.max_class_cm[key] = reorderConsensusMatrix(self.max_class_cm[key])
             # self.z_class_cm[key] = reorderConsensusMatrix(self.z_class_cm[key])
         self.calc_z_score()
