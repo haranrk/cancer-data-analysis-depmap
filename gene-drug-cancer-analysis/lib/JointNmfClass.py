@@ -16,7 +16,7 @@ def classify_by_z(x: np.array, thresh):
 # Abstract Class - Do not instantiate this class
 # Returns all the matrices as a DataFrame
 class JointNmfClass:
-    def __init__(self, x: dict, k: int, niter: int, super_niter: int, thresh: int):
+    def __init__(self, x: dict, k: int, niter: int, super_niter: int, thresh: float):
         if str(type(list(x.values())[0])) == "<class 'pandas.core.frame.DataFrame'>":
             self.x = {k: x[k].values for k in x}
             self.x_df = x
@@ -63,16 +63,17 @@ class JointNmfClass:
         for i in range(1, self.niter):
             self.update_weights()
             # for key in self.x:
-            if verbose == 1 and i % 10 == 0:
+            if verbose == 1 and i % 1 == 0:
                 print("\t\titer: %i | error: %f" % (i, self.error))
 
     def super_wrapper(self, verbose=0):
         self.initialize_variables()
         for i in range(0, self.super_niter):
             self.initialize_wh()
-            if verbose == 1 and i % self.super_niter % 1 == 0:
+            if verbose == 1:
+                if i % self.super_niter % self.super_niter == 0:
+                    self.wrapper_update(verbose=1)
                 print("\tSuper iteration: %i Error: %f " % (i, self.error))
-                self.wrapper_update(verbose=1)
             else:
                 self.wrapper_update(verbose=0)
 

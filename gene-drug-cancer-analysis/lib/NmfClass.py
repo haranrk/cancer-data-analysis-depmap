@@ -48,7 +48,7 @@ class NmfModel:
         for i in range(1, self.niter):
             self.update_weights()
             self.calc_error()
-            if verbose == 1 and i % 10 == 0:
+            if verbose == 1 and i % 1 == 0:
                 print("\t\titer: %i | error: %f" % (i, self.error))
 
     def super_wrapper(self, verbose=0):
@@ -56,9 +56,10 @@ class NmfModel:
         for i in range(0, self.super_niter):
             self.initialize_wh()
 
-            if verbose == 1 and i % self.super_niter % 1 == 0:
+            if verbose == 1:
+                if i % self.super_niter % self.super_niter == 0:
+                    self.wrapper_update(verbose=1)
                 print("\tSuper iteration: %i Error: %f " % (i, self.error))
-                self.wrapper_update(verbose=1)
             else:
                 self.wrapper_update(verbose=0)
 
