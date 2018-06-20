@@ -10,7 +10,7 @@ def scripter(py_command, loc):
     script_file.write('#$ -M haranrk@hgc.jp\n')
     script_file.write('#$ -m bae\n')
     script_file.write('#$ -N depmap\n')
-    script_file.write('#$ -cwd -j y -l ljob -l s_vmem=32G -l mem_req=128G\n')
+    script_file.write('#$ -cwd -j y -l ljob -l s_vmem=12G -l mem_req=12G\n')
     script_file.write('echo "START: " `date  "+%Y%m%d-%H%M%S"`\n')
     script_file.write('start_time=`date +%s`\n')
     script_file.write('module load python/3.6.4\n')
