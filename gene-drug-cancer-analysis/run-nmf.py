@@ -1,16 +1,19 @@
+import matplotlib as mpl
+mpl.use('Agg')
+from matplotlib import pyplot as plt
+import seaborn as sns
+import argparse as ap
+
+import pandas as pd
+import numpy as np
+from lib.functions import clean_df
+from lib.IntegrativeJnmfClass import IntegrativeNmfClass
+from lib.NmfClass import NmfModel
 import os
 from pathlib import Path as pth
 main_dir = pth(os.getcwd())
 script_dir = pth(__file__).parent
 os.chdir(script_dir)
-import pandas as pd
-from lib.NmfClass import NmfModel
-import numpy as np
-from matplotlib import pyplot as plt
-from lib.functions import clean_df
-from lib.IntegrativeJnmfClass import IntegrativeNmfClass
-import seaborn as sns
-import argparse as ap
 
 parser = ap.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
