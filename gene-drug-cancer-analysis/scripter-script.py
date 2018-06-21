@@ -30,5 +30,5 @@ for data in datasets:
         slave_script_dir = main_script_dir / "shirokane_runs" / data / str(k)
         slave_script_dir.mkdir(parents=True, exist_ok=True)
         os.chdir(slave_script_dir.absolute())
-        scripter("python %s/run-nmf.py %s %s\n" % (main_script_dir.absolute(), data, k), slave_script_dir)
+        scripter("python %s/run-nmf.py -v %s %s\n" % (main_script_dir.absolute(), data, k), slave_script_dir)
         print("Created %s" % slave_script_dir)
