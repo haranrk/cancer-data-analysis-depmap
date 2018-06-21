@@ -1,6 +1,7 @@
-from lib.functions import *
+from lib.functions import reorderConsensusMatrix
+import numpy as np
+import pandas as pd
 import random
-
 
 def classify_by_max(x: np.array):
     return (x == np.amax(x, axis=0)).astype(float)
@@ -18,11 +19,14 @@ def classify_by_z(x: np.array, thresh):
 class JointNmfClass:
     def __init__(self, x: dict, k: int, niter: int, super_niter: int, thresh: float):
         if str(type(list(x.values())[0])) == "<class 'pandas.core.frame.DataFrame'>":
-            self.x = {k: x[k].values for k in x}
-            self.x_df = x
-        elif str(type(list(x.values())[0])) == "<class 'numpy.ndarray'>":
-            self.x = x
-            self.x_df = pd.DataFrame(x)
+            self.column_index={}
+            self.x={}
+            self.row_index=list(random.choice(list(x.values())).index)
+            for key in x:
+                self.column_index[key] = list(x[key].columns)
+                self.x[key] = x[key].values
+                if all(self.row_index != x[key].index):
+                    raise ValueError("Row indices are not uniform")
         else:
             raise ValueError("Invalid DataType")
 
@@ -32,7 +36,6 @@ class JointNmfClass:
         self.cmw = None
         self.w = None
         self.h = None
-        self.z_score = None
         self.thresh = thresh
         self.error = float('inf')
         self.eps = np.finfo(list(self.x.values())[0].dtype).eps
@@ -41,32 +44,26 @@ class JointNmfClass:
         number_of_samples = list(self.x.values())[0].shape[0]
 
         self.cmw = np.zeros((number_of_samples, number_of_samples))
-        # self.w_avg = np.zeros((number_of_samples, self.k))
-
-        # self.h_avg = {}
         self.max_class = {}
         self.max_class_cm = {}
-        self.z_class = {}
-        self.z_class_cm = {}
         self.z_score = {}
-
         for key in self.x:
             number_of_features = self.x[key].shape[1]
-            # self.h_avg[key] = np.zeros((self.k, number_of_features))
             self.max_class[key] = np.zeros((self.k, number_of_features))
             self.max_class_cm[key] = np.zeros((number_of_features, number_of_features))
-            self.z_class[key] = np.zeros((self.k, number_of_features))
-            self.z_class_cm[key] = np.zeros((number_of_features, number_of_features))
-            self.z_score[key] = np.zeros((self.k, number_of_features))
 
     def wrapper_update(self, verbose=0):
         for i in range(1, self.niter):
             self.update_weights()
-            # for key in self.x:
             if verbose == 1 and i % 1 == 0:
                 print("\t\titer: %i | error: %f" % (i, self.error))
-
+    
     def super_wrapper(self, verbose=0):
+        """Wrapper function that runs across the different trials
+        
+        Keyword Arguments:
+            verbose {bool} -- for more verbosity (default: {0})
+        """
         self.initialize_variables()
         for i in range(0, self.super_niter):
             self.initialize_wh()
@@ -78,45 +75,41 @@ class JointNmfClass:
                 self.wrapper_update(verbose=0)
 
             self.cmw += self.connectivity_matrix_w()
-            # self.w_avg += self.w
 
             for key in self.h:
-                # self.h_avg[key] += self.h[key]
                 connectivity_matrix = lambda a: np.dot(a.T, a)
                 self.max_class_cm[key] += connectivity_matrix(classify_by_max(self.h[key]))
-                self.z_class_cm[key] += connectivity_matrix(classify_by_z(self.h[key], self.thresh))
 
         # Normalization
-        # self.w_avg = self.w_avg/self.super_niter
         self.cmw = reorderConsensusMatrix(self.cmw / self.super_niter)
 
         for key in self.h:
-            # self.h_avg[key] /= self.super_niter
             self.max_class_cm[key] /= self.super_niter
-            self.z_class_cm[key] /= self.super_niter
             self.max_class_cm[key] = reorderConsensusMatrix(self.max_class_cm[key])
-            # self.z_class_cm[key] = reorderConsensusMatrix(self.z_class_cm[key])
-        self.calc_z_score()
 
         # Classification
         for key, val in self.h.items():
             self.max_class[key] = classify_by_max(val)
-            self.z_class[key] = classify_by_z(val, self.thresh)
 
         # Converting values to DataFrames
         class_list = ["class-%i" % a for a in list(range(self.k))]
-        # noinspection PyCallingNonCallable
-        self.w = pd.DataFrame(self.w, index=random.choice(list(self.x_df.values())).index, columns=class_list)
+        self.w = pd.DataFrame(self.w, index=self.row_index, columns=class_list)
 
         self.h = self.conv_dict_np_to_df(self.h)
-        # self.h_avg = self.conv_dict_np_to_df(self.h_avg)
-        self.z_score = self.conv_dict_np_to_df(self.z_score)
         self.max_class = self.conv_dict_np_to_df(self.max_class)
-        self.z_class = self.conv_dict_np_to_df(self.z_class)
 
     def conv_dict_np_to_df(self, a: dict):
+        """[Converts the passed 'h' like attribute from numpy to dataframe ]
+        'h' like attributes are dictionaries with the keys being the names of the different passed datasets
+
+        Arguments:
+            a {dict} -- [the 'h' like variable to be converted]
+        
+        Returns:
+            [dict] -- [the converted variable]
+        """ 
         class_list = ["class-%i" % a for a in list(range(self.k))]
-        return {k: pd.DataFrame(a[k], index=class_list, columns=self.x_df[k].columns) for k in a}
+        return {k: pd.DataFrame(a[k], index=class_list, columns=self.column_index[k]) for k in a}
 
     # TODO - invalid value ocurred
     def calc_z_score(self):
