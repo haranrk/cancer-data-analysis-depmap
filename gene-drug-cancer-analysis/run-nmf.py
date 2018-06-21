@@ -33,8 +33,8 @@ data = {args.data_name:a}
 print(data[args.data_name].shape)
 
 k = args.k
-niter = 2
-super_niter = 5
+niter = 100
+super_niter = 50
 
 print("Rank: %i | iterations: %i | trials: %i" % (k, niter, super_niter))
 m = IntegrativeNmfClass(data, k, niter, super_niter, lamb=5, thresh=0.1)
