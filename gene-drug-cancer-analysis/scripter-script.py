@@ -1,6 +1,6 @@
 from pathlib import Path as pth
 import os
-main_script_dir = pth(__file__).parent.absolute()
+main_script_dir = pth(__file__).parent.resolve()
 def scripter(py_command, loc):
     script_file = open("run.sh", 'w')
     script_file.write('#!/bin/sh\n')
@@ -26,9 +26,9 @@ datasets = ["Avana",  "RNAi_Nov_DEM"]
 
 for data in datasets:
     for k in k_list:
-        os.chdir(main_script_dir.absolute())
+        os.chdir(main_script_dir)
         slave_script_dir = main_script_dir / "shirokane_runs" / data / str(k)
         slave_script_dir.mkdir(parents=True, exist_ok=True)
-        os.chdir(slave_script_dir.absolute())
+        os.chdir(slave_script_dir.resolve())
         scripter("python %s/run-nmf.py -v %s %s\n" % (main_script_dir.absolute(), data, k), slave_script_dir)
         print("Created %s" % slave_script_dir)

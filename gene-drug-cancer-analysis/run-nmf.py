@@ -11,8 +11,8 @@ from lib.IntegrativeJnmfClass import IntegrativeNmfClass
 from lib.NmfClass import NmfModel
 import os
 from pathlib import Path as pth
-main_dir = pth(os.getcwd())
-script_dir = pth(__file__).parent
+main_dir = pth(os.getcwd()).resolve()
+script_dir = pth(__file__).parent.resolve()
 os.chdir(script_dir)
 
 parser = ap.ArgumentParser()
