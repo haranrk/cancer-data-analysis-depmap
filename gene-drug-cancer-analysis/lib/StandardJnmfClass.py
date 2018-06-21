@@ -1,4 +1,4 @@
-from lib.JointNmfClass import *
+from lib.JointNmfClass import JointNmfClass
 
 
 class StandardNmfClass(JointNmfClass):

@@ -1,4 +1,6 @@
-from lib.functions import *
+from lib.functions import reorderConsensusMatrix
+import numpy as np
+import pandas as pd
 import random
 
 
@@ -18,11 +20,15 @@ def classify_by_z(x: np.array, thresh):
 class JointNmfClass:
     def __init__(self, x: dict, k: int, niter: int, super_niter: int, thresh: float):
         if str(type(list(x.values())[0])) == "<class 'pandas.core.frame.DataFrame'>":
+            self.column_names={}
+            for key in x:
+                self.column_names[k] = x[k].columns
+                
+
+
+
             self.x = {k: x[k].values for k in x}
             self.x_df = x
-        elif str(type(list(x.values())[0])) == "<class 'numpy.ndarray'>":
-            self.x = x
-            self.x_df = pd.DataFrame(x)
         else:
             raise ValueError("Invalid DataType")
 
