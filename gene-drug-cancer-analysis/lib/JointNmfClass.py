@@ -44,22 +44,17 @@ class JointNmfClass:
         number_of_samples = list(self.x.values())[0].shape[0]
 
         self.cmw = np.zeros((number_of_samples, number_of_samples))
-        # self.w_avg = np.zeros((number_of_samples, self.k))
-
-        # self.h_avg = {}
         self.max_class = {}
         self.max_class_cm = {}
         self.z_score = {}
         for key in self.x:
             number_of_features = self.x[key].shape[1]
-            # self.h_avg[key] = np.zeros((self.k, number_of_features))
             self.max_class[key] = np.zeros((self.k, number_of_features))
             self.max_class_cm[key] = np.zeros((number_of_features, number_of_features))
 
     def wrapper_update(self, verbose=0):
         for i in range(1, self.niter):
             self.update_weights()
-            # for key in self.x:
             if verbose == 1 and i % 1 == 0:
                 print("\t\titer: %i | error: %f" % (i, self.error))
     
@@ -80,10 +75,8 @@ class JointNmfClass:
                 self.wrapper_update(verbose=0)
 
             self.cmw += self.connectivity_matrix_w()
-            # self.w_avg += self.w
 
             for key in self.h:
-                # self.h_avg[key] += self.h[key]
                 connectivity_matrix = lambda a: np.dot(a.T, a)
                 self.max_class_cm[key] += connectivity_matrix(classify_by_max(self.h[key]))
 
