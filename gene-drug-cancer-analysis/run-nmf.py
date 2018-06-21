@@ -12,8 +12,11 @@ from lib.NmfClass import NmfModel
 import os
 from pathlib import Path as pth
 main_dir = pth(os.getcwd()).resolve()
-script_dir = pth(__file__).parent.resolve()
+script_dir = pth(__file__).parent.absolute()
 os.chdir(script_dir)
+print(os.getcwd())
+print(main_dir)
+print(script_dir)
 
 parser = ap.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
@@ -39,4 +42,4 @@ m.super_wrapper(verbose=args.verbose)
 plt.figure()
 sns.heatmap(m.max_class_cm[args.data_name])
 os.chdir(main_dir)
-plt.savefig("%s_k=%i" % ("l", k))
+plt.savefig("%s_k=%i" % (cmh, k))

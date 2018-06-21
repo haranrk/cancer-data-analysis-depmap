@@ -13,10 +13,6 @@ import sys
 from matplotlib import pyplot as plt
 import seaborn as sns
 
-os.chdir(pth(__file__).parent.parent)
-cwd = pth(os.getcwd())
-
-
 def clean_df(x: pd.DataFrame, axis=1):
     if axis == 1:
         y = x[x.notna().all(axis=1)]
