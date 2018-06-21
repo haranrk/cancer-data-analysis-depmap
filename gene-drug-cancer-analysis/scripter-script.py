@@ -22,7 +22,7 @@ def scripter(py_command, loc):
     script_file.close()
 
 k_list = [3, 4, 5]
-datasets = ["Avana",  "RNAi-Nov_DEM"]
+datasets = ["Avana",  "RNAi_Nov_DEM"]
 
 for data in datasets:
     for k in k_list:
