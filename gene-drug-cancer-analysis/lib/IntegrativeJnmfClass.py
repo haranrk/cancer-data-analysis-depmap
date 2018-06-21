@@ -1,4 +1,5 @@
 from lib.JointNmfClass import JointNmfClass
+import numpy as np
 
 
 class IntegrativeNmfClass(JointNmfClass):
@@ -25,7 +26,7 @@ class IntegrativeNmfClass(JointNmfClass):
         numerator = np.zeros(w.shape)
         denominator = np.zeros(w.shape)
 
-        for key, value in self.x.items():
+        for key in self.x:
             numerator = numerator + np.dot(self.x[key], h[key].T)
             denominator = denominator + np.dot(w+v[key], np.dot(h[key], h[key].T))
 
