@@ -12,8 +12,8 @@ data_sets = [
             # "RNAi_merged", 
             "RNAi_Nov_DEM"
             ]
-iter = 300
-trials = 100
+iter = 750
+trials = 300
 k_list = list(range(3,20))
 
 for data in data_sets:
