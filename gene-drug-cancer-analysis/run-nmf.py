@@ -25,11 +25,11 @@ args = parser.parse_args()
 
 print(args.data_name)
 a = pd.read_csv("data/%s.csv" % args.data_name, index_col=0)
-print(a.shape)
+print("Original shape: %s"%str(a.shape))
 a = clean_df(a, axis=1)
 a = (a - (np.min(a.values))) / np.std(a.values)
 data = {args.data_name:a}
-print(data[args.data_name].shape)
+print("Cleaned shape: %s"%str(data[args.data_name].shape))
 
 k = args.k
 niter = args.iter
