@@ -41,6 +41,7 @@ class JointNmfClass:
         self.eps = np.finfo(list(self.x.values())[0].dtype).eps
 
     def initialize_variables(self):
+        """Initializes all the variables except the w and h. It is run before the iterations of the various trials""" 
         number_of_samples = list(self.x.values())[0].shape[0]
 
         self.cmw = np.zeros((number_of_samples, number_of_samples))
@@ -67,18 +68,16 @@ class JointNmfClass:
         self.initialize_variables()
         for i in range(0, self.super_niter):
             self.initialize_wh()
-            if verbose == 1:
-                if i % self.super_niter % self.super_niter == 0:
-                    self.wrapper_update(verbose=1)
-                print("\tSuper iteration: %i Error: %f " % (i, self.error))
-            else:
-                self.wrapper_update(verbose=0)
-
+            self.wrapper_update(verbose if i==0 else 0) 
             self.cmw += self.connectivity_matrix_w()
-
             for key in self.h:
                 connectivity_matrix = lambda a: np.dot(a.T, a)
                 self.max_class_cm[key] += connectivity_matrix(classify_by_max(self.h[key]))
+
+            if verbose == 1:
+                print("\tSuper iteration: %i completed with Error: %f " % (i, self.error))
+
+
 
         # Normalization
         self.cmw = reorderConsensusMatrix(self.cmw / self.super_niter)
