@@ -1,7 +1,6 @@
 import matplotlib as mpl
 mpl.use('Agg')
 from matplotlib import pyplot as plt
-import seaborn as sns
 import argparse as ap
 
 import pandas as pd
@@ -14,9 +13,6 @@ from pathlib import Path as pth
 main_dir = pth(os.getcwd()).resolve()
 script_dir = pth(__file__).parent.absolute()
 os.chdir(script_dir)
-print(os.getcwd())
-print(main_dir)
-print(script_dir)
 
 parser = ap.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
@@ -28,11 +24,11 @@ args = parser.parse_args()
 
 print(args.data_name)
 a = pd.read_csv("data/%s.csv" % args.data_name, index_col=0)
-print(a.shape)
+print("Original shape: %s"%str(a.shape))
 a = clean_df(a, axis=1)
 a = (a - (np.min(a.values))) / np.std(a.values)
 data = {args.data_name:a}
-print(data[args.data_name].shape)
+print("Cleaned shape: %s"%str(data[args.data_name].shape))
 
 k = args.k
 niter = args.iter
@@ -42,11 +38,12 @@ print("Rank: %i | iterations: %i | trials: %i" % (k, niter, super_niter))
 m = IntegrativeNmfClass(data, k, niter, super_niter, lamb=5, thresh=0.1)
 m.super_wrapper(verbose=args.verbose)
 plt.figure()
-plt.subplot(211)
+plt.suptitle("Rank: %i"%k)
+plt.subplot(121)
 plt.title("cmh")
-sns.heatmap(m.max_class_cm[args.data_name])
+plt.imshow(m.max_class_cm[args.data_name], cmap="magma", interpolation="nearest")
+plt.subplot(122)
 plt.title("cmw")
-plt.subplot(212)
-sns.heatmap(m.cmw)
+plt.imshow(m.cmw, cmap="magma", interpolation="nearest")
 os.chdir(main_dir)
 plt.savefig("%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
