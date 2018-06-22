@@ -1,7 +1,6 @@
 import matplotlib as mpl
 mpl.use('Agg')
 from matplotlib import pyplot as plt
-import seaborn as sns
 import argparse as ap
 
 import pandas as pd
