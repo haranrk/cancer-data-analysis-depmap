@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from scipy.cluster.hierarchy import linkage, leaves_list
+from scipy.cluster.hierarchy import linkage, leaves_list, cophenet
+import fastcluster as fc
 from scipy.spatial.distance import squareform
 import os
 from pathlib import Path as pth
@@ -89,3 +90,9 @@ def reorderConsensusMatrix(M: np.array):
     ivl = ivl[::-1]
     reorderM = pd.DataFrame(M.values[:, ivl][ivl, :], index=M.columns[ivl], columns=M.columns[ivl])
     return reorderM.values
+
+def calc_cophenetic_correlation(consensus_matrix):
+    ori_dists = fc.pdist(consensus_matrix)
+    Z = fc.linkage(ori_dists, method='average')
+    [coph_corr, coph_dists] = cophenet(Z, ori_dists)
+    return coph_corr

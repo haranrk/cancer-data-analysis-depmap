@@ -1,6 +1,7 @@
 import matplotlib as mpl
 mpl.use('Agg')
 from matplotlib import pyplot as plt
+import seaborn as sns
 import argparse as ap
 
 import pandas as pd
@@ -37,6 +38,9 @@ super_niter = args.trials
 print("Rank: %i | iterations: %i | trials: %i" % (k, niter, super_niter))
 m = IntegrativeNmfClass(data, k, niter, super_niter, lamb=5, thresh=0.1)
 m.super_wrapper(verbose=args.verbose)
+print("For rank %i," % k)
+print("Cophenetic Correlation of w: %f"%(m.coph_corr_w))
+print("Cophenetic Correlation of h: %f" % (m.coph_corr_h[args.data_name]))
 plt.figure()
 plt.suptitle("Rank: %i"%k)
 plt.subplot(121)
@@ -46,4 +50,4 @@ plt.subplot(122)
 plt.title("cmw")
 plt.imshow(m.cmw, cmap="magma", interpolation="nearest")
 os.chdir(main_dir)
-plt.savefig("%s_%i_%i_%i" % (args.data_name, niter, super_niter, k))
+plt.savefig("%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))

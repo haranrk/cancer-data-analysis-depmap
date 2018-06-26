@@ -1,8 +1,7 @@
-from lib.functions import reorderConsensusMatrix
+from lib.functions import reorderConsensusMatrix, calc_cophenetic_correlation
 import numpy as np
 import pandas as pd
 import random
-
 def classify_by_max(x: np.array):
     return (x == np.amax(x, axis=0)).astype(float)
 
@@ -48,10 +47,13 @@ class JointNmfClass:
         self.max_class = {}
         self.max_class_cm = {}
         self.z_score = {}
+        self.coph_corr_w = None
+        self.coph_corr_h = {}
         for key in self.x:
             number_of_features = self.x[key].shape[1]
             self.max_class[key] = np.zeros((self.k, number_of_features))
             self.max_class_cm[key] = np.zeros((number_of_features, number_of_features))
+            self.coph_corr_h[key] = None
 
     def wrapper_update(self, verbose=0):
         for i in range(1, self.niter):
@@ -81,7 +83,13 @@ class JointNmfClass:
 
         # Normalization
         self.cmw = reorderConsensusMatrix(self.cmw / self.super_niter)
+        
+        #Cophenetic Correlation
+        self.coph_corr_w = calc_cophenetic_correlation(self.cmw)
+        for key, cmh in self.max_class_cm.items():
+            self.coph_corr_h[key] = calc_cophenetic_correlation(cmh)
 
+        #Reordering Consensus Matrix
         for key in self.h:
             self.max_class_cm[key] /= self.super_niter
             self.max_class_cm[key] = reorderConsensusMatrix(self.max_class_cm[key])
