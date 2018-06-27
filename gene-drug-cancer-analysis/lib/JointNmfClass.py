@@ -2,6 +2,7 @@ from lib.functions import reorderConsensusMatrix, calc_cophenetic_correlation
 import numpy as np
 import pandas as pd
 import random
+
 def classify_by_max(x: np.array):
     return (x == np.amax(x, axis=0)).astype(float)
 

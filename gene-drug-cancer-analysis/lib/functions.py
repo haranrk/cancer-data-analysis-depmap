@@ -96,3 +96,7 @@ def calc_cophenetic_correlation(consensus_matrix):
     Z = fc.linkage(ori_dists, method='average')
     [coph_corr, coph_dists] = cophenet(Z, ori_dists)
     return coph_corr
+
+def cluster_data(x: np.array):
+    a = (x == np.amax(x, axis=0)).astype(float)
+    return a.T.sort_values(by=list(a.index)).T

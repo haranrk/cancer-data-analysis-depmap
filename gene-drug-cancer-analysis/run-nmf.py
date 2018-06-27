@@ -6,7 +6,7 @@ import argparse as ap
 
 import pandas as pd
 import numpy as np
-from lib.functions import clean_df
+from lib.functions import clean_df, cluster_data
 from lib.IntegrativeJnmfClass import IntegrativeNmfClass
 from lib.NmfClass import NmfModel
 import os
@@ -41,6 +41,7 @@ m.super_wrapper(verbose=args.verbose)
 print("For rank %i," % k)
 print("Cophenetic Correlation of w: %f"%(m.coph_corr_w))
 print("Cophenetic Correlation of h: %f" % (m.coph_corr_h[args.data_name]))
+
 plt.figure()
 plt.suptitle("Rank: %i"%k)
 plt.subplot(121)
@@ -51,3 +52,13 @@ plt.title("cmw")
 plt.imshow(m.cmw, cmap="magma", interpolation="nearest")
 os.chdir(main_dir)
 plt.savefig("%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
+
+plt.figure(figsize=(data[args.data_name].shape[1]/6, 10))
+plt.title("Classification of h")
+sns.heatmap(cluster_data(m.h[args.data_name]), xticklabels=True, yticklabels=True)
+plt.savefig("h_classification_for_%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
+plt.figure(figsize=(data[args.data_name].shape[0]/6, 10))
+plt.title("Classification of w")
+sns.heatmap(cluster_data(m.w.T), xticklabels=True, yticklabels= True)
+plt.savefig("w_classification_for_%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
+
