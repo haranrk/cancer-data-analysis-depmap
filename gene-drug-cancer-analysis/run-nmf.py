@@ -17,7 +17,7 @@ os.chdir(script_dir)
 
 parser = ap.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
-parser.add_argument("data_name", type=str, help="Which dataset to use", choices=["Avana", "GeCKO", "RNAi_Ach", "RNAi_merged", "RNAi_Nov_DEM"])
+parser.add_argument("data_name", type=str, help="Which dataset to use", choices=["Avana", "GeCKO", "RNAi_Ach", "RNAi_merged", "RNAi_Nov_DEM", "filtered_avana", "filtered_nov_dem"])
 parser.add_argument("k", type=int, help="rank according to which the matrix will be factorized")
 parser.add_argument("iter",type=int, help="the maximum number of iterations that the nmf will run for" )
 parser.add_argument("trials", type=int, help="number of trails against which the consensus data will be plotted")
