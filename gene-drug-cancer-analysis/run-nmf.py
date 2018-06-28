@@ -42,6 +42,11 @@ print("For rank %i," % k)
 print("Cophenetic Correlation of w: %f"%(m.coph_corr_w))
 print("Cophenetic Correlation of h: %f" % (m.coph_corr_h[args.data_name]))
 
+os.chdir(main_dir)
+cluster_data(m.h[args.data_name]).to_csv("h_classification_for_%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
+cluster_data(m.w.T).to_csv("w_classification_for_%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
+
+#Plotting
 plt.figure()
 plt.suptitle("Rank: %i"%k)
 plt.subplot(121)
@@ -50,7 +55,6 @@ plt.imshow(m.max_class_cm[args.data_name], cmap="magma", interpolation="nearest"
 plt.subplot(122)
 plt.title("cmw")
 plt.imshow(m.cmw, cmap="magma", interpolation="nearest")
-os.chdir(main_dir)
 plt.savefig("%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
 
 plt.figure(figsize=(data[args.data_name].shape[1]/6, 10))
