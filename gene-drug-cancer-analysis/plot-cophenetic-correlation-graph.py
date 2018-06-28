@@ -39,6 +39,7 @@ for k in k_list:
     coph_corr_list_w.append(m.coph_corr_w)
     coph_corr_list_h.append(m.coph_corr_h[args.data_name])
 
+os.chdir(main_dir)
 plt.figure(figsize=(24, 18))
 plt.suptitle("Cophenetic Correlation Plot for: %s"%args.data_name)
 plt.subplot(212)
