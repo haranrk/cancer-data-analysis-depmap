@@ -43,8 +43,8 @@ print("Cophenetic Correlation of w: %f"%(m.coph_corr_w))
 print("Cophenetic Correlation of h: %f" % (m.coph_corr_h[args.data_name]))
 
 os.chdir(main_dir)
-cluster_data(m.h[args.data_name]).to_csv("h_classification_for_%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
-cluster_data(m.w.T).to_csv("w_classification_for_%s_%i_%i_%i" % (args.data_name, k, niter, super_niter))
+cluster_data(m.h[args.data_name]).T.to_csv("h_classification_for_%s_%i_%i_%i.csv" % (args.data_name, k, niter, super_niter))
+cluster_data(m.w.T).T.to_csv("w_classification_for_%s_%i_%i_%i.csv" % (args.data_name, k, niter, super_niter))
 
 #Plotting
 plt.figure()
