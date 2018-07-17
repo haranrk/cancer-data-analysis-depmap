@@ -1,6 +1,8 @@
 import argparse as ap
 import pandas as pd
-from lib.IntegrativeJnmfClass import IntegrativeNmfClass
+from bignmf.models.jnmf.integrative import IntegrativeJnmf 
+import matplotlib as mpl
+mpl.use('Agg')
 from matplotlib import pyplot as plt
 import os
 import seaborn as sns
@@ -34,10 +36,11 @@ coph_corr_list_w = []
 coph_corr_list_h = []
 for k in k_list:
     print("Rank: %i | iterations: %i | trials: %i" % (k, niter, super_niter))
-    m = IntegrativeNmfClass(data, k, niter, super_niter, lamb=5, thresh=0.1)
-    m.super_wrapper(verbose=args.verbose)
-    coph_corr_list_w.append(m.coph_corr_w)
-    coph_corr_list_h.append(m.coph_corr_h[args.data_name])
+    m = IntegrativeJnmf(data, k, lamb=5)
+    m.run( niter, super_niter, verbose=args.verbose)
+    m.calc_cophenetic_correlation()
+    coph_corr_list_w.append(m.cophenetic_correlation_w)
+    coph_corr_list_h.append(m.cophenetic_correlation_h[args.data_name])
 
 os.chdir(main_dir)
 plt.figure(figsize=(24, 18))
