@@ -1,0 +1,57 @@
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 2 | iterations: 1000 | trials: 50
+For rank 2,
+Cophenetic Correlation of w: 0.859727
+Cophenetic Correlation of h: 0.869046
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 3 | iterations: 1000 | trials: 50
+For rank 3,
+Cophenetic Correlation of w: 0.890095
+Cophenetic Correlation of h: 0.877475
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 4 | iterations: 1000 | trials: 50
+For rank 4,
+Cophenetic Correlation of w: 0.821908
+Cophenetic Correlation of h: 0.783096
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 5 | iterations: 1000 | trials: 50
+For rank 5,
+Cophenetic Correlation of w: 0.702794
+Cophenetic Correlation of h: 0.775851
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 6 | iterations: 1000 | trials: 50
+For rank 6,
+Cophenetic Correlation of w: 0.727187
+Cophenetic Correlation of h: 0.765813
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 7 | iterations: 1000 | trials: 50
+For rank 7,
+Cophenetic Correlation of w: 0.661337
+Cophenetic Correlation of h: 0.720979
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 8 | iterations: 1000 | trials: 50
+For rank 8,
+Cophenetic Correlation of w: 0.608616
+Cophenetic Correlation of h: 0.749830
+filtered_avana
+Original shape: (455, 211)
+Cleaned shape: (455, 211)
+Rank: 9 | iterations: 1000 | trials: 50
+For rank 9,
+Cophenetic Correlation of w: 0.604783
+Cophenetic Correlation of h: 0.692728
+Starting batch run for: filtered_avana
