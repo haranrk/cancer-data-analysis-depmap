@@ -1,5 +1,5 @@
 ## Integrated Genome Drug Cancer analysis
-Used the DepMap datasets to find relations between drug and cancer genomic data. Leveraged the jNMF (joint non-negative matrix factorization) algorithm to conduct the analysis.
+Used DepMap datasets to find relations between drug and cancer genomic data. Leveraged the jNMF (joint non-negative matrix factorization) algorithm to conduct the analysis.
 
 
 Download the datasets from [here](https://depmap.org/portal/) before running the code.
