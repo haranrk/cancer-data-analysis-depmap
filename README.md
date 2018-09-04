@@ -1,3 +1,8 @@
 ## Integrated Genome Drug Cancer analysis
-Using the DepMap dataset to find relations between drug data and genomic data 
-Before running the code, the datasets must be downloaded from [depmap](https://depmap.org/portal/dataset/datasets_list/)
+Used the DepMap datasets to find relations between drug and cancer genomic data. Leveraged the jNMF (joint non-negative matrix factorization) algorithm to conduct the analysis.
+
+
+Download the datasets from [here](https://depmap.org/portal/) before running the code.
+
+#
+_Done as a part of summer research internship at the [FAiS lab](http://fais.hgc.jp/), University of Tokyo._
